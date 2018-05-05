@@ -1,0 +1,75 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf200
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww15900\viewh10980\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 Emily Ng \
+ASTR496 Computing in Astronomy \
+Assignment 3\
+Chemistry Solver\
+\
+Write-up\
+This is an Chemistry ODE solver that tracks the evolution of a gas throughout time.\
+In this following program, we are modeling a sample of nine chemical species: \
+HI, HII, HeI, HeII, HeIII, H2I, H2II, H-, and e- . \
+\
+The program uses two distinct python packages: Sympy and Scipy. \
+Sympy is used to develop right hand side equations that describe how the rate of change in the number of each species element in our model. \
+Scipy is used to integrate our equations. \
+\
+Reaction rates k1, k2, k3, \'85 , k19 are taken from Abel et al., 1996. These reaction rates are stored as functions of temperature in rate_coeff.py. Plans to expand on this list using reaction rates of k20 upwards to k32 taking from Omukai et al., 2000 are underway. \
+\
+To find the RHS equations, sympy.simpify is used. RHS_eqs.py creates reaction equations and solves for the RHS for dSdt. *RHS_eqs.py is dependent on coefficient functions written in rate_coeff.py. \
+\
+RHS outputs from get_rhs() function:\
+\
+In[10]: get_rhs(HI)\
+Out[10]: H2I*HII*k11 + H2I*de*k12 - H2II*HI*k10 + H2II*HM*k19 + H2II*de*k18 - HI*HII*k9 - HI*HM*k8 - HI*de*k1 - HI*de*k7 + HII*HM*k16 + HII*de*k2 + HM*de*k14\
+\
+In[11]: get_rhs(HII)\
+Out[11]: -H2I*HII*k11 + H2II*HI*k10 - HI*HII*k9 + HI*de*k1 - HII*HM*k16 - HII*HM*k17 - HII*de*k2\
+\
+In[12]: get_rhs(HeI)\
+Out[12]: -HeI*de*k3 + HeII*de*k4\
+\
+In[13]: get_rhs(HeII)\
+Out[13]: HeI*de*k3 - HeII*de*k4 - HeII*de*k5 + HeIII*de*k6\
+\
+In[14]: get_rhs(HeIII)\
+Out[14]: HeII*de*k5 - HeIII*de*k6\
+\
+In[15]: get_rhs(H2I)\
+Out[15]: -H2I*HI*k13 - H2I*HII*k11 - H2I*de*k12 + H2II*HI*k10 + H2II*HM*k19 + HI*HM*k8\
+\
+In[16]: get_rhs(H2II)\
+Out[16]: H2I*HII*k11 - H2II*HI*k10 - H2II*HM*k19 - H2II*de*k18 + HI*HII*k9 + HII*HM*k17\
+\
+In[17]: get_rhs(HM)\
+Out[17]: -H2II*HM*k19 - HI*HM*k15 - HI*HM*k8 + HI*de*k7 - HII*HM*k16 - HII*HM*k17 - HM*de*k14\
+\
+In[18]: get_rhs(de)\
+Out[18]: -H2II*de*k18 + HI*HM*k15 + HI*HM*k8 - HI*de*k7 + HII*HM*k17 - HII*de*k2 - HeII*de*k4 - HeIII*de*k6\
+\
+The evolve() function integrates and tracks the ionization and recombination of atomic Hydrogen, Helium, and molecular Hydrogen. \
+\
+Sample Outputs: \
+\
+\
+
+\fs24 {{\NeXTGraphic Screen Shot 2018-05-04 at 10.42.38 PM.png \width10080 \height5640 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}{{\NeXTGraphic Screen Shot 2018-05-04 at 10.44.22 PM.png \width10320 \height5680 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\
+So far, I still need to adjust the temperature update\'85\
+I\'92m not sure if I am updating my temperature correctly. Such as, if I am using the mean molecular weight the correct way, and what quantity should I set the internal energy as well as gamma. \
+\
+Lastly, I still have to be able to configure it to run in the command line\'85 \
+\
+One last question is: what does \'93phase space\'94 mean? \
+\
+\
+
+\fs28 \
+}
